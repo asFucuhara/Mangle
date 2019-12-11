@@ -1,0 +1,28 @@
+.card {
+  width: 200px;
+  position: relative;
+  box-shadow: 1px 4px 5px 0px #bdbfb9;
+  text-align: center;
+}
+
+.cover {
+  height: 285px;
+  width: 200px;
+}
+
+.status {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  background-color: rgba(109, 101, 105, 0.9);
+  padding: 2px;
+  border-radius: 5px;
+}
+
+.status span {
+  color: whitesmoke;
+}
+
+.title {
+  font-size: large;
+}

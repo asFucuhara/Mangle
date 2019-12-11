@@ -1,0 +1,33 @@
+.tableCard {
+  width: 90%;
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 1px 4px 5px 0px #bdbfb9;
+}
+
+table {
+  padding: 0 20px;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.checkbox {
+  width: 15px;
+  text-align: right;
+}
+
+.vol {
+  width: 40px;
+}
+
+.titulo {
+  width: 70%;
+}
+
+th {
+  text-align: left;
+}
+
+td {
+  text-align: left;
+}

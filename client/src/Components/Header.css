@@ -1,0 +1,29 @@
+.outterHeader {
+  width: 100%;
+  top: 0px;
+  position: fixed;
+  z-index: 10000;
+  box-shadow: 1px 4px 5px 0px #bdbfb9;
+  background-color: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 5%;
+  align-items: center;
+}
+
+.logo {
+  font-size: 40px;
+}
+
+.search span {
+  font-size: large;
+}
+
+.search input {
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: large;
+}
