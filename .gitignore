@@ -10,6 +10,9 @@ Thumbs.db
 .Spotlight-V100
 .Trashes
 
+# Files from vsCode
+.vscode
+
 # npm files
 node_modules/
 
