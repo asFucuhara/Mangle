@@ -2,7 +2,7 @@ const chokidar = require('chokidar');
 const fs = require('fs');
 const shelljs = require('shelljs');
 
-const { toProcessFolder, minifiedFolder } = require('./config');
+const { toProcessFolder, minifiedFolder } = require('../config');
 const mail = require('./mail');
 
 chokidar
