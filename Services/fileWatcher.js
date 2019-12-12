@@ -1,9 +1,10 @@
 const chokidar = require('chokidar');
 const fs = require('fs');
-const shelljs = require('shelljs');
 
 const { toProcessFolder, minifiedFolder } = require('../config');
 const mail = require('./mail');
+
+//This service listen to new files on the toProcess Folder, minifiyng when necessarie and add a entry on the database
 
 chokidar
   .watch(toProcessFolder, {
@@ -22,30 +23,12 @@ chokidar
     }
 
     //if trimmed execute the flow
-    const file = path.substring(toProcessFolder.length + 1); //todo get file name{get everything afee last /}
+    const file = path.substring(toProcessFolder.length + 1);
     console.log(`Chiokidar: new file ${file}`);
-
 
     //see if file exist in minified folder
     fs.access(`${minifiedFolder}/${file}`, fs.constants.F_OK, err => {
       if (err) {
-        //todo Bundle Chapters in Volume too
-        const script = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4  -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${minifiedFolder}/${file} ${toProcessFolder}/${file}`;
-        console.log('exec:', script);
-        console.log(`minifying: ${file}`);
-        shelljs.exec(script, code => {
-          if (!code) {
-            console.log(`Minified succeed: ${file}`);
-            console.log(`Sending ${file} to Amazon Kindle`);
-
-            //send Mail to amazon storage
-            mail(`${minifiedFolder}/${file}`);
-          }
-        });
-        đ;
-      } else {
-        console.log(`Already minified: ${file}`);
       }
     });
-    //console.log(path, stats);
   });
