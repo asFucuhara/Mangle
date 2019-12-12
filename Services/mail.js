@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 const {
   mail: { user, pass, receiver }
-} = require('./config');
+} = require('../config');
 
 const main = async path => {
   const transporter = nodemailer.createTransport({
