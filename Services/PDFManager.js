@@ -1,41 +1,46 @@
 const shelljs = require('shelljs');
 
 const PDFManager = {
-  bundler: async (arrayChaptersPath = [], outputPath) => {
+  bundler: (arrayChaptersPath = [], outputPath) => {
+    //todo change to cast error
     if (!outputPath) {
       console.log('Error output path not valid');
-      return;
+      return 1;
     }
 
     if (!arrayChaptersPath) {
       console.log('Error arrayChapterPath not valid');
-      return;
+      return 1;
     } else {
       if (typeof arrayChaptersPath === 'string') {
-        //transform single entries into array to hnadle later
+        //transform single entries into array for handling
         arrayChaptersPath = [arrayChaptersPath];
       } else if (!Array.isArray(arrayChaptersPath)) {
         console.log('Error arrayChaptePath not valid');
-        return;
+        return 1;
       }
     }
 
     //generating string of paths to use in script
 
-    const reducer = (acc, cur) => `${acc} ${cur}`;
+    const reducer = (acc, cur) => `${acc} \"${cur}\"`;
     const inputString = arrayChaptersPath.reduce(reducer, '');
 
-    const script = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4  -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${outputPath} ${inputString}`;
-    //console.log(`minifying: ${file}`);
+    const script = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4  -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${outputPath}" ${inputString}`;
 
-    shelljs.exec(script, errorCode => {
-      if (!errorCode) {
-        //console.log(`Minified succeed: ${file}`);
-      } else {
-        console.log('Error Bundling your PDF: ', errorCode);
-      }
-      return errorCode;
+    const promise = new Promise((resolve, reject) => {
+      shelljs.exec(script, errorCode => {
+        if (!errorCode) {
+          //console.log(`Minified succeed: ${file}`);
+          resolve(outputPath);
+        } else {
+          console.log('Error Bundling your PDF: ', errorCode);
+          reject(errorCode);
+        }
+      });
     });
+
+    return promise;
   }
 };
 
