@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 require('./manga');
 
-const volumeSchema = new Schema({
+const chapterSchema = new Schema({
   chapter: Number,
-  type: String,
+  title: String,
   status: String,
   dateSentKindle: String,
   dateDownloaded: String,
@@ -13,4 +13,4 @@ const volumeSchema = new Schema({
   manga: { type: Schema.Types.ObjectId, ref: 'Manga' }
 });
 
-mongoose.model('Volume', volumeSchema);
+mongoose.model('Chapter', chapterSchema);

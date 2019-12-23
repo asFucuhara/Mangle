@@ -12,6 +12,7 @@ Thumbs.db
 
 # Files from vsCode
 .vscode
+.vscode/launch.json
 
 # npm files
 node_modules/
