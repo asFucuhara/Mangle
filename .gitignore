@@ -19,3 +19,4 @@ node_modules/
 
 #project specific
 Files/
+config/Dev.js
