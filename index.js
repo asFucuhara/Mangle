@@ -1,15 +1,10 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const mongooseHandler = require('./Services/mongooseHandler');
 const bodyParser = require('body-parser');
 const path = require('path');
 
 //mongoose setup
-require('./Models/manga');
-require('./Models/volume');
-mongoose.Promise = global.Promise;
-mongoose
-  .connect('mongodb://localhost:27017/Mangle-Dev')
-  .then(console.log('Mongoose connected!'));
+mongooseHandler.connect();
 
 //express setup
 const app = express();
