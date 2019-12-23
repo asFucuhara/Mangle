@@ -25,7 +25,6 @@ const PDFManager = {
 
     const reducer = (acc, cur) => `${acc} \"${cur}\"`;
     const inputString = arrayChaptersPath.reduce(reducer, '');
-
     const script = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4  -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${outputPath}" ${inputString}`;
 
     const promise = new Promise((resolve, reject) => {
