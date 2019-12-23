@@ -2,9 +2,9 @@ const nodemailer = require('nodemailer');
 
 const {
   mail: { user, pass, receiver }
-} = require('./config');
+} = require('../config');
 
-const main = async path => {
+const mail = async path => {
   const transporter = nodemailer.createTransport({
     host: 'smtp-mail.outlook.com',
     port: 587,
@@ -33,4 +33,4 @@ const main = async path => {
   });
 };
 
-module.exports = main;
+module.exports = mail;
