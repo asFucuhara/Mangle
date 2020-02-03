@@ -6,7 +6,7 @@ const { bundler } = require('./PDFManager');
 const mongooseHandler = require('./mongooseHandler');
 //This service listen to new files on the toProcess Folder, minifiyng when necessarie and add a entry on the database
 
-const fileWatcher = async () => {
+const fileWatcher = (async () => {
   try {
     //Connecting Database
     await mongooseHandler.connect();
@@ -63,7 +63,4 @@ const fileWatcher = async () => {
   } catch (Error) {
     console.log('erro: ', Error);
   }
-};
-
-//Runre
-fileWatcher();
+})();
