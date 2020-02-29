@@ -8,4 +8,4 @@ const bundleSchema = new Schema({
   dateBundled: Date
 });
 
-mongoose.model('Bundle', bundleSchema);
+mongoose.model('Bundle', bundleSchema);  
