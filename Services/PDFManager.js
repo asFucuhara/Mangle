@@ -1,21 +1,21 @@
 const shelljs = require('shelljs');
 
 const PDFManager = {
-  bundler: (arrayChaptersPath = [], outputPath) => {
+  bundler: (arrayInputPath = [], outputPath, bundleName) => {
     //todo change to cast error
     if (!outputPath) {
       console.log('Error output path not valid');
       return 1;
     }
 
-    if (!arrayChaptersPath) {
+    if (!arrayInputPath) {
       console.log('Error arrayChapterPath not valid');
       return 1;
     } else {
-      if (typeof arrayChaptersPath === 'string') {
+      if (typeof arrayInputPath === 'string') {
         //transform single entries into array for handling
-        arrayChaptersPath = [arrayChaptersPath];
-      } else if (!Array.isArray(arrayChaptersPath)) {
+        arrayInputPath = [arrayInputPath];
+      } else if (!Array.isArray(arrayInputPath)) {
         console.log('Error arrayChaptePath not valid');
         return 1;
       }
@@ -24,7 +24,7 @@ const PDFManager = {
     //generating string of paths to use in script
 
     const reducer = (acc, cur) => `${acc} \"${cur}\"`;
-    const inputString = arrayChaptersPath.reduce(reducer, '');
+    const inputString = arrayInputPath.reduce(reducer, '');
     const script = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4  -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${outputPath}" ${inputString}`;
 
     const promise = new Promise((resolve, reject) => {
