@@ -4,6 +4,7 @@ const { mongooseURL } = require('../config');
 
 //Mongoose setup
 mongoose.Promise = global.Promise;
+mongoose.set('useFindAndModify', false);
 
 require('../Models/manga');
 require('../Models/chapter');
@@ -45,7 +46,7 @@ const mangaHandler = {
         const newManga = await manga.save();
         //while waiting for mongo to finalize the creatino querry more entryes for the specific manga can ocuur
         //resolveing all promises of a manga
-        mangaAddQueue[title].forEach((element) => element(newManga));
+        mangaAddQueue[title].forEach(element => element(newManga));
 
         //resolving promise of first entry that didn´t enter the list array
       }
@@ -54,9 +55,34 @@ const mangaHandler = {
 
     return promise;
   },
-  get: async inputObject => {
+  getOne: async inputObject => {
     const mangaObject = await mangaModel.findOne(inputObject);
     return mangaObject;
+  },
+  getMany: async inputObject => {
+    const mangaArray = await mangaModel.find(inputObject);
+    console.log(mangaArray);
+    return mangaArray;
+  },
+  edit: async (id, inputObject) => {
+    try {
+      const manga = await mangaModel.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: inputObject
+        },
+        { new: true }
+      );
+      return manga;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  delete: async inputeObject => {
+    const manga = await mangaModel.findOneAndDelete(inputeObject);
+    //chain delete for chapters
+    return manga;
   }
 };
 
@@ -72,12 +98,12 @@ const chapterHandler = {
     const mangaRef = mongoose.Types.ObjectId.isValid(inputObject.manga);
     if (!mangaRef) {
       //if manga is not a ref get ref from db
-      let mangaObject = await mangaHandler.get({ title: inputObject.manga });
+      let mangaObject = await mangaHandler.getOne({ title: inputObject.manga });
       debugger;
       if (mangaObject === null) {
         mangaObject = await mangaHandler.add({ title: inputObject.manga });
       }
-      inputObject.manga = mangaObject.ObjectId;
+      inputObject.manga = mangaObject._id;
     }
     const chapter = chapterModel(inputObject);
     return chapter.save();
@@ -107,6 +133,34 @@ const chapterHandler = {
   extractInfoAndAdd: chapterFileName => {
     const extractedInfo = chapterHandler.extractInfo(chapterFileName);
     return chapterHandler.add(extractedInfo);
+  },
+  getOne: async inputObject => {
+    const chapters = await chapterModel.findOne(inputObject);
+    return chapters;
+  },
+  getMany: async inputObject => {
+    const chapters = await chapterModel.find(inputObject);
+    return chapters;
+  },
+  edit: async (id, inputObject) => {
+    try {
+      const chapter = await chapterModel.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: inputObject
+        },
+        { new: true }
+      );
+      return chapter;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  delete: async inputeObject => {
+    const chapter = await chapterModel.findOneAndDelete(inputeObject);
+    //todo: delete files
+    return chapter;
   }
 };
 

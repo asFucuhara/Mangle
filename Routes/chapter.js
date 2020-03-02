@@ -4,18 +4,17 @@ const { mangaHandler, chapterHandler } = require('../Services/mongooseHandler');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const mangas = await mangaHandler.getMany({});
-  res.status(200).send(mangas);
+  const chapters = await chapterHandler.getMany({});
+  res.status(200).send(chapters);
 });
 
 router.post('/', async (req, res) => {
-  const manga = await mangaHandler.add(req.body);
-  res.status(200).send(manga);
+  const chapter = await chapterHandler.add(req.body);
+  res.status(200).send(chapter);
 });
 
 router.get('/:id', async (req, res) => {
-  //blah
-  const manga = await mangaHandler.getOne({ _id: req.params.id });
+  const chapters = await chapterHandler.getOne({ _id: req.params.id });
   res.status(200).send(chapters);
 });
 
@@ -24,13 +23,14 @@ router.post('/:id', (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const manga = await mangaHandler.edit(req.params.id, req.body);
-  res.status(200).send(manga);
+  console.log(req.body);
+  const chapter = await chapterHandler.edit(req.params.id, req.body);
+  res.status(200).send(chapter);
 });
 
 router.delete('/:id', async (req, res) => {
-  const manga = await mangaHandler.delete({ _id: req.params.id });
-  res.status(200).send(manga);
+  const chapter = await chapterHandler.delete({ _id: req.params.id });
+  res.status(200).send(chapter);
 });
 
 module.exports = router;

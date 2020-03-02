@@ -8,11 +8,14 @@ mongooseHandler.connect();
 
 //express setup
 const app = express();
-const mangaRoute = require('./Routes/manga');
 app.use(bodyParser.json());
 
 //express routes
+//todo: test all routes
+const mangaRoute = require('./Routes/manga');
+const chapterRoute = require('./Routes/chapter');
 app.use('/api/manga', mangaRoute);
+app.use('/api/chapter', chapterRoute);
 
 if (process.env.NODE_ENV === 'production') {
   console.log('Running in production!');
