@@ -1,5 +1,5 @@
 const express = require('express');
-const { mangaHandler, chapterHandler } = require('../Services/mongooseHandler');
+const { mangaHandler } = require('../Services/mongooseHandler');
 
 const router = express.Router();
 
@@ -14,9 +14,8 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  //blah
   const manga = await mangaHandler.getOne({ _id: req.params.id });
-  res.status(200).send(chapters);
+  res.status(200).send(manga);
 });
 
 router.post('/:id', (req, res) => {

@@ -8,16 +8,18 @@ mongoose.set('useFindAndModify', false);
 
 require('../Models/manga');
 require('../Models/chapter');
+require('../Models/bundle')
 const mangaModel = mongoose.model('Manga');
 const chapterModel = mongoose.model('Chapter');
+const bundleModel = mongoose.model('Bundle');
 
-//mangaAddQueue = {
-//  'mangaTitle': [ promises,
-//                  () => resolve()
-//                ]
-//  'anotherOne' : [promises]
-//  'resolvedOne' : {Object with all property}
-//}
+/* mangaAddQueue = {
+ 'mangaTitle': [ promises,
+                 () => resolve()
+               ]
+ 'anotherOne' : [promises]
+ 'resolvedOne' : {Object with all property}
+} */
 
 const mangaAddQueue = {};
 
@@ -164,4 +166,43 @@ const chapterHandler = {
   }
 };
 
-module.exports = { connect, chapterHandler, mangaHandler };
+const bundleHandler = {
+  add: async inputObject => {
+    // name: String,
+    // bundled: Array,  //array of mongoose.ObjectId
+    // path: String,
+    // dateBundled: Date
+    const bundle = bundleModel(inputObject);
+    return bundle.save();
+  },
+  getOne: async inputObject => {
+    const bundle = await chapterModel.findOne(inputObject);
+    return bundle;
+  },
+  getMany: async inputObject => {
+    const bundles = await chapterModel.find(inputObject);
+    return bundles;
+  },
+  edit: async (id, inputObject) => {
+    try {
+      const bundle = await bundleModel.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: inputObject
+        },
+        { new: true }
+      );
+      return bundle;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  delete: async inputeObject => {
+    const chapter = await chapterModel.findOneAndDelete(inputeObject);
+    //todo: delete files
+    return chapter;
+  }
+};
+
+module.exports = { connect, chapterHandler, mangaHandler, bundleHandler };
