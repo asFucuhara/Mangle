@@ -124,9 +124,14 @@ const chapterHandler = {
     };
     return infoObject;
   },
-  extractInfoAndAdd: chapterFileName => {
+  extractInfoAndAdd: (chapterFileName, filePath) => {
+    if (!filePath){
+      throw "filePath must not be empty"
+    }
+
     const extractedInfo = chapterHandler.extractInfo(chapterFileName);
-    return chapterHandler.add(extractedInfo);
+    const info = {path: filePath, ...extractedInfo};
+    return chapterHandler.add(info);
   },
   getOne: async inputObject => {
     const chapters = await chapterModel.findOne(inputObject);

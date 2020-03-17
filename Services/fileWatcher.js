@@ -47,7 +47,7 @@ const fileWatcher = (async () => {
                 `${minifiedFolder}/${minifiedFile}`
               );
               const chapter = await mongooseHandler.chapterHandler.extractInfoAndAdd(
-                minifiedFile
+                minifiedFile, `${minifiedFolder}/${minifiedFile}`
               );
               console.log('FileWatcher: added to db', chapter);
             } catch (error) {
