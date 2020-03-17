@@ -2,8 +2,8 @@ import React from 'react';
 
 const ChapterListCard = (props) => {
   return (
-    <div className="tableCard">
-      <div className="services"></div>
+    <div className="card">
+      <div className="title">Chapters. </div>
       <table>
         <thead>
           <tr>

@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import MangaInfoCard from './MangaInfoCard';
 import ChapterListCard from './ChapterListCard';
+import BundleList from './BundleList';
 import MangaPopUp from './MangaPopUp';
 
 
@@ -26,7 +27,6 @@ class Manga extends React.Component {
 
   checkBoxIsChecked = (item, isChecked = false) => {
     //returns state of item checkbox and data entry for selectedMap and good funcinality of master check
-    debugger;
     let aux = this.state.selectedMap.get(item);
     if (aux === undefined) {
       this.setState(prevState => ({
@@ -71,6 +71,8 @@ class Manga extends React.Component {
         </button>
 
         <MangaInfoCard id={this.props.match.params.id} />
+
+        <BundleList />
 
         <ChapterListCard
           chapterList={this.state.chapterList}
