@@ -4,7 +4,7 @@ const {
   mail: { user, pass, receiver }
 } = require('../config');
 
-const mail = async path => {
+const mail = path => {
   const transporter = nodemailer.createTransport({
     host: 'smtp-mail.outlook.com',
     port: 587,
@@ -24,13 +24,17 @@ const mail = async path => {
     attachments: [{ path }]
   };
 
-  transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      console.log('Email error: ', error);
-    } else {
-      console.log('Email enviado: ' + info.response);
-    }
-  });
+  const mailPromise = new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(info.response);
+      }
+    });
+  })
+
+  return mailPromise;
 };
 
 module.exports = mail;

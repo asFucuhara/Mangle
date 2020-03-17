@@ -11,13 +11,14 @@ const app = express();
 app.use(bodyParser.json());
 
 //express routes
-//todo: test all routes
 const mangaRoute = require('./Routes/manga');
 const chapterRoute = require('./Routes/chapter');
-const bundleRoute = require('./Routes/bundle')
+const bundleRoute = require('./Routes/bundle');
+const mailRoute = require('./Routes/mail');
 app.use('/api/manga', mangaRoute);
 app.use('/api/chapter', chapterRoute);
 app.use('/api/bundle', bundleRoute);
+app.use('/api/mail', mailRoute);
 
 if (process.env.NODE_ENV === 'production') {
   console.log('Running in production!');

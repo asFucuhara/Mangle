@@ -8,10 +8,12 @@ mongoose.set('useFindAndModify', false);
 
 require('../Models/manga');
 require('../Models/chapter');
-require('../Models/bundle')
+require('../Models/bundle');
+require('../Models/mail');
 const mangaModel = mongoose.model('Manga');
 const chapterModel = mongoose.model('Chapter');
 const bundleModel = mongoose.model('Bundle');
+const mailModel = mongoose.model('Mail')
 
 const mangaAddQueue = {};
 
@@ -125,12 +127,12 @@ const chapterHandler = {
     return infoObject;
   },
   extractInfoAndAdd: (chapterFileName, filePath) => {
-    if (!filePath){
-      throw "filePath must not be empty"
+    if (!filePath) {
+      throw 'filePath must not be empty';
     }
 
     const extractedInfo = chapterHandler.extractInfo(chapterFileName);
-    const info = {path: filePath, ...extractedInfo};
+    const info = { path: filePath, ...extractedInfo };
     return chapterHandler.add(info);
   },
   getOne: async inputObject => {
@@ -202,4 +204,51 @@ const bundleHandler = {
   }
 };
 
-module.exports = { connect, chapterHandler, mangaHandler, bundleHandler };
+const mailHandler = {
+  add: async inputObject => {
+    // to: String,
+    // dateSent: Date,
+    // attached: { type: Object,
+    // kind: String,
+    // _id: mongoose.model._id,
+    // path: String }
+
+    const mail = mailModel(inputObject);
+    return mail.save();
+  },
+  getOne: async inputObject => {
+    const mail = await mailModel.findOne(inputObject);
+    return mail;
+  },
+  getMany: async inputObject => {
+    const mails = await mailModel.find(inputObject);
+    return mails;
+  },
+  edit: async (id, inputObject) => {
+    try {
+      const mail = await mailModel.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: inputObject
+        },
+        { new: true }
+      );
+      return mail;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  delete: async inputeObject => {
+    const chapter = await mailModel.findOneAndDelete(inputeObject);
+    return chapter;
+  }
+};
+
+module.exports = {
+  connect,
+  chapterHandler,
+  mangaHandler,
+  bundleHandler,
+  mailHandler
+};
