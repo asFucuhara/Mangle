@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "mongod & nodemon index.js"
+    "start": "mongod & nodemon --ignore 'client/*' index.js"
   },
   "author": "",
   "license": "ISC",

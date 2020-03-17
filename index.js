@@ -14,8 +14,10 @@ app.use(bodyParser.json());
 //todo: test all routes
 const mangaRoute = require('./Routes/manga');
 const chapterRoute = require('./Routes/chapter');
+const bundleRoute = require('./Routes/bundle')
 app.use('/api/manga', mangaRoute);
 app.use('/api/chapter', chapterRoute);
+app.use('/api/bundle', bundleRoute);
 
 if (process.env.NODE_ENV === 'production') {
   console.log('Running in production!');

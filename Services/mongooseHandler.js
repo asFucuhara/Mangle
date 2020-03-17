@@ -13,14 +13,6 @@ const mangaModel = mongoose.model('Manga');
 const chapterModel = mongoose.model('Chapter');
 const bundleModel = mongoose.model('Bundle');
 
-/* mangaAddQueue = {
- 'mangaTitle': [ promises,
-                 () => resolve()
-               ]
- 'anotherOne' : [promises]
- 'resolvedOne' : {Object with all property}
-} */
-
 const mangaAddQueue = {};
 
 const connect = async () => {
@@ -176,11 +168,11 @@ const bundleHandler = {
     return bundle.save();
   },
   getOne: async inputObject => {
-    const bundle = await chapterModel.findOne(inputObject);
+    const bundle = await bundleModel.findOne(inputObject);
     return bundle;
   },
   getMany: async inputObject => {
-    const bundles = await chapterModel.find(inputObject);
+    const bundles = await bundleModel.find(inputObject);
     return bundles;
   },
   edit: async (id, inputObject) => {
@@ -199,7 +191,7 @@ const bundleHandler = {
   },
 
   delete: async inputeObject => {
-    const chapter = await chapterModel.findOneAndDelete(inputeObject);
+    const chapter = await bundleModel.findOneAndDelete(inputeObject);
     //todo: delete files
     return chapter;
   }
