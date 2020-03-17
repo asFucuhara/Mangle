@@ -1,5 +1,9 @@
 const express = require('express');
-const { bundleHandler } = require('../Services/mongooseHandler');
+const {
+  bundleHandler,
+  chapterHandler
+} = require('../Services/mongooseHandler');
+const { bundler } = require('../Services/PDFManager');
 
 const router = express.Router();
 
@@ -9,6 +13,13 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  const { bundled } = req.body || [];
+  //get path for each entry in bundle
+  const promisesArray = bundled.map(id => {
+    return chapterHandler.getOne({ _id: id }).then(a => a.title);
+  });
+  const filePathArray = await Promise.all(promisesArray);
+  console.log(filePathArray);
   const bundle = await bundleHandler.add(req.body);
   res.status(200).send(bundle);
 });
