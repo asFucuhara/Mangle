@@ -2,7 +2,9 @@ import React from 'react';
 import axios from 'axios';
 
 import MangaInfoCard from './MangaInfoCard';
+import ChapterListCard from './ChapterListCard';
 import MangaPopUp from './MangaPopUp';
+
 
 import './Manga.css';
 
@@ -22,8 +24,9 @@ class Manga extends React.Component {
     });
   }
 
-  checkBoxIsChecked(item, isChecked = false) {
+  checkBoxIsChecked = (item, isChecked = false) => {
     //returns state of item checkbox and data entry for selectedMap and good funcinality of master check
+    debugger;
     let aux = this.state.selectedMap.get(item);
     if (aux === undefined) {
       this.setState(prevState => ({
@@ -34,7 +37,7 @@ class Manga extends React.Component {
     return aux;
   }
 
-  checkBoxChange(e) {
+  checkBoxChange = (e) => {
     const item = e.target.name;
     const isChecked = e.target.checked;
     this.setState(prevState => ({
@@ -44,7 +47,7 @@ class Manga extends React.Component {
     }));
   }
 
-  checkBoxMasterChange(e) {
+  checkBoxMasterChange = (e) => {
     const item = e.target.name;
     const isChecked = e.target.checked;
     const aux = [[item, isChecked]];
@@ -69,64 +72,13 @@ class Manga extends React.Component {
 
         <MangaInfoCard id={this.props.match.params.id} />
 
-        <div className="tableCard">
-          <div className="services"></div>
-          <table>
-            <thead>
-              <tr>
-                <th className="checkbox">
-                  <input
-                    type="checkbox"
-                    name="master"
-                    checked={this.checkBoxIsChecked('master')}
-                    onChange={this.checkBoxMasterChange.bind(this)}
-                  ></input>
-                </th>
-                <th className="vol">Vol.</th>
-                <th>Ch.</th>
-                <th className="titulo">Titulo</th>
-                <th>Relesed</th>
-                <th>Downloaded</th>
-                <th>Kindle</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.chapterList.map(
-                (
-                  {
-                    _id,
-                    chapter,
-                    volume,
-                    title,
-                    dateSentKindle,
-                    dateDownloaded,
-                    dateReleased
-                  },
-                  index
-                ) => {
-                  return (
-                    <tr key={_id}>
-                      <td className="checkbox">
-                        <input
-                          type="checkbox"
-                          name={index}
-                          checked={this.checkBoxIsChecked(index.toString())}
-                          onChange={this.checkBoxChange.bind(this)}
-                        ></input>
-                      </td>
-                      <td className="vol">{volume}</td>
-                      <td>{chapter}</td>
-                      <td>{title}</td>
-                      <td>{dateSentKindle}</td>
-                      <td>{dateDownloaded}</td>
-                      <td>{dateReleased}</td>
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-        </div>
+        <ChapterListCard
+          chapterList={this.state.chapterList}
+          selectedMap={this.state.selectedMap}
+          checkBoxIsChecked={this.checkBoxIsChecked}
+          checkBoxChange={this.checkBoxChange}
+          checkBoxMasterChange={this.checkBoxMasterChange}
+        />
 
         {/* Popup Component */}
         {this.state.showPopup ? (
