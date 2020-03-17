@@ -15,11 +15,11 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { bundled } = req.body || [];
   //get path for each entry in bundle
-  const promisesArray = bundled.map(id => {
-    return chapterHandler.getOne({ _id: id }).then(a => a.title);
-  });
-  const filePathArray = await Promise.all(promisesArray);
+  const chaptersArray = await chapterHandler.getMany({ _id: bundled });
+  const filePathArray = chaptersArray.map(x => x.title);
   console.log(filePathArray);
+  
+  //TODO: Add PDF handler for file path
   const bundle = await bundleHandler.add(req.body);
   res.status(200).send(bundle);
 });
