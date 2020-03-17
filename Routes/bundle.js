@@ -5,6 +5,8 @@ const {
 } = require('../Services/mongooseHandler');
 const { bundler } = require('../Services/PDFManager');
 
+const { bundleFolder } = require('../config');
+
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -13,14 +15,20 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { bundled } = req.body || [];
+  const newBundle = req.body;
+  const { name,bundled } = newBundle;
+
   //get path for each entry in bundle
   const chaptersArray = await chapterHandler.getMany({ _id: bundled });
-  const filePathArray = chaptersArray.map(x => x.title);
-  console.log(filePathArray);
+  const filePathArray = chaptersArray.map(x => x.path);
+
+  //generate pdf for bundle
+  const bundlePath = await bundler(filePathArray, `${bundleFolder}/${name}.pdf`);
+
+  //save on mongoose
+  const bundle = await bundleHandler.add({path: bundlePath, ...newBundle});
+
   
-  //TODO: Add PDF handler for file path
-  const bundle = await bundleHandler.add(req.body);
   res.status(200).send(bundle);
 });
 
