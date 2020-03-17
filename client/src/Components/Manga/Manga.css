@@ -1,0 +1,96 @@
+
+.bundleBtn {
+  position: fixed;
+  bottom: 2%;
+  right: 1%;
+
+
+  box-shadow: 3px 5px 9px -5px #303b2d;
+	background:linear-gradient(to bottom, #44c767 5%, #5cbf2a 100%);
+	background-color:#44c767;
+	border-radius:34px;
+	border:3px solid #d5ded6;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:18px;
+	padding:14px 19px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f542a;
+}
+
+.card {
+  width: 90%;
+  margin: 0 auto 20px auto;
+  background-color: white;
+  box-shadow: 1px 4px 5px 0px #bdbfb9;
+  text-align: left;
+}
+
+.card .title{
+  padding: 10px 0px 0px 10px;
+}
+
+table {
+  padding: 0 20px;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.checkbox {
+  width: 15px;
+  text-align: right;
+}
+
+.vol {
+  width: 40px;
+}
+
+.titulo {
+  width: 70%;
+}
+
+.services {
+  float: right;
+}
+
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 700;
+}
+.popup_inner {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  margin: auto;
+  background: white;
+}
+
+.popup_inner div {
+  overflow: scroll;
+  position: absolute;
+  top: 120px;
+  left: 0%;
+  right: 0%;
+  bottom: 0%;
+  margin: auto;
+}
+
+th {
+  text-align: left;
+}
+
+td {
+  text-align: left;
+}

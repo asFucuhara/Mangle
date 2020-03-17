@@ -19,7 +19,7 @@ class Home extends React.Component {
     return (
       <div className="list">
         {this.state.items.map((item, index) => {
-          const key = item.id || `Card${index}`;
+          const key = item._id || `Card${index}`;
           return <Card item={item} key={key} />;
         })}
       </div>
