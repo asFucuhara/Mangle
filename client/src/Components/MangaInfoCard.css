@@ -1,0 +1,35 @@
+.MangaInfoCard {
+  width: 90%;
+  margin: 0 auto 20px auto;
+  padding: 5px;
+  background-color: white;
+  box-shadow: 1px 4px 5px 0px #bdbfb9;
+}
+.mangaInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.mangaInfo div {
+  margin-left: 15px;
+}
+
+.mangaSource {
+  width: auto;
+}
+
+.cover {
+  margin: 0 15px 0 15px;
+  height: 142px;
+  width: 100px;
+}
+
+.buttons {
+  position: absolute;
+  top: 10%;
+  right: 6%;
+  z-index: 500;
+}
+

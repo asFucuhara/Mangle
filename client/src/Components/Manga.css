@@ -1,3 +1,25 @@
+
+.bundleBtn {
+  position: fixed;
+  bottom: 2%;
+  right: 1%;
+
+
+  box-shadow: 3px 5px 9px -5px #303b2d;
+	background:linear-gradient(to bottom, #44c767 5%, #5cbf2a 100%);
+	background-color:#44c767;
+	border-radius:34px;
+	border:3px solid #d5ded6;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:18px;
+	padding:14px 19px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f542a;
+}
+
 .tableCard {
   width: 90%;
   margin: 0 auto;
@@ -38,6 +60,7 @@ table {
   bottom: 0;
   margin: auto;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 700;
 }
 .popup_inner {
   position: absolute;

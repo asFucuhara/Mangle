@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 
+import MangaInfoCard from './MangaInfoCard';
+import MangaPopUp from './MangaPopUp';
+
 import './Manga.css';
 
 class Manga extends React.Component {
@@ -12,15 +15,15 @@ class Manga extends React.Component {
 
   componentDidMount() {
     const id = this.props.match.params.id;
-    //todo: Route to get chapters of a specified manga
+    //todo: Route to get chapters of a specified manga//update state only once
     axios.get(`/api/chapter`).then(resp => {
       const chapterList = resp.data;
       this.setState({ chapterList });
     });
-    console.log(this.state.selectedMap.get('master'));
   }
 
   checkBoxIsChecked(item, isChecked = false) {
+    //returns state of item checkbox and data entry for selectedMap and good funcinality of master check
     let aux = this.state.selectedMap.get(item);
     if (aux === undefined) {
       this.setState(prevState => ({
@@ -56,91 +59,83 @@ class Manga extends React.Component {
 
   render() {
     return (
-      <div
-        className="tableCard"
-        onClick={() => this.setState({ setState: false })}
-      >
-        <div className="services">
-          <button onClick={() => this.setState({ showPopup: true })}>
-            Bundle
-          </button>
+      <div>
+        <button
+          className="bundleBtn"
+          onClick={() => this.setState({ showPopup: true })}
+        >
+          Bundle
+        </button>
+
+        <MangaInfoCard id={this.props.match.params.id} />
+
+        <div className="tableCard">
+          <div className="services"></div>
+          <table>
+            <thead>
+              <tr>
+                <th className="checkbox">
+                  <input
+                    type="checkbox"
+                    name="master"
+                    checked={this.checkBoxIsChecked('master')}
+                    onChange={this.checkBoxMasterChange.bind(this)}
+                  ></input>
+                </th>
+                <th className="vol">Vol.</th>
+                <th>Ch.</th>
+                <th className="titulo">Titulo</th>
+                <th>Relesed</th>
+                <th>Downloaded</th>
+                <th>Kindle</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.chapterList.map(
+                (
+                  {
+                    _id,
+                    chapter,
+                    volume,
+                    title,
+                    dateSentKindle,
+                    dateDownloaded,
+                    dateReleased
+                  },
+                  index
+                ) => {
+                  return (
+                    <tr key={_id}>
+                      <td className="checkbox">
+                        <input
+                          type="checkbox"
+                          name={index}
+                          checked={this.checkBoxIsChecked(index.toString())}
+                          onChange={this.checkBoxChange.bind(this)}
+                        ></input>
+                      </td>
+                      <td className="vol">{volume}</td>
+                      <td>{chapter}</td>
+                      <td>{title}</td>
+                      <td>{dateSentKindle}</td>
+                      <td>{dateDownloaded}</td>
+                      <td>{dateReleased}</td>
+                    </tr>
+                  );
+                }
+              )}
+            </tbody>
+          </table>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th className="checkbox">
-                <input
-                  type="checkbox"
-                  name="master"
-                  checked={this.checkBoxIsChecked('master')}
-                  onChange={this.checkBoxMasterChange.bind(this)}
-                ></input>
-              </th>
-              <th className="vol">Vol.</th>
-              <th className="titulo">Titulo</th>
-              <th>Relesed</th>
-              <th>Downloaded</th>
-              <th>Kindle</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.chapterList.map(
-              (
-                {
-                  _id,
-                  chapterNumber,
-                  title,
-                  dateSentKindle,
-                  dateDownloaded,
-                  dateReleased
-                },
-                index
-              ) => {
-                return (
-                  <tr key={_id}>
-                    <td className="checkbox">
-                      <input
-                        type="checkbox"
-                        name={index}
-                        checked={this.checkBoxIsChecked(index.toString())}
-                        onChange={this.checkBoxChange.bind(this)}
-                      ></input>
-                    </td>
-                    <td className="vol">{chapterNumber}</td>
-                    <td>{title}</td>
-                    <td>{dateSentKindle}</td>
-                    <td>{dateDownloaded}</td>
-                    <td>{dateReleased}</td>
-                  </tr>
-                );
-              }
-            )}
-          </tbody>
-        </table>
 
         {/* Popup Component */}
         {this.state.showPopup ? (
-          <div
-            className="popup"
-            onClick={() => this.setState({ showPopup: false })}
-          >
-            <div className="popup_inner" onClick={e => e.stopPropagation()}>
-              <h1>Bundle</h1>
-              <div>
-                {this.state.chapterList.map(({ title }, index) => {
-                  if (this.state.selectedMap.get(index.toString())) {
-                    return <p>{title}</p>;
-                  }
-                  return null;
-                })}
-              </div>
-
-              <button onClick={null}>Bundle</button>
-              <button onClick={() => this.setState({ showPopup: false })}>
-                close me
-              </button>
-            </div>
-          </div>
+          <MangaPopUp
+            selectedList={this.state.chapterList.filter((value, index) => {
+              return this.state.selectedMap.get(index.toString());
+            })}
+            close={() => this.setState({ showPopup: false })}
+          />
         ) : null}
       </div>
     );
