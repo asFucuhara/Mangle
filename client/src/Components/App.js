@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import webFont from 'webfontloader';
 
 import Home from './Home';
-import Manga from './Manga';
+import Manga from './Manga/Manga';
 import Header from './Header';
 
 import './App.css';
